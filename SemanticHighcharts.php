@@ -19,6 +19,13 @@ if (!defined('SMW_VERSION')) {
 	die();
 }
 
+# Global Variables
+# Should we enable the SEmantic Result Printer?
+$wgEnableResultPrinter = TRUE;
+
+# Should we enable the parser hook?
+$wgEnableParserHook = TRUE;
+
 # Include our utility functions...
 include ("Highcharts.body.php");
 
