@@ -210,8 +210,6 @@ $(function () {
 });
 ");
 
-		$wgOut->addInlineStyle("div#container{\n\theight:".$this->params['height']."px;\n\twidth:".$this->params['width']."px;");
-
 		return parent::getResultText($res, $outputmode);
 	}
 

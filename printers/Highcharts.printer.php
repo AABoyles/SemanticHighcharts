@@ -25,6 +25,8 @@ class HighchartsPrinter extends SMWResultPrinter {
 	protected function getResultText( SMWQueryResult $res, $outputmode ) {
 		global $wgOut;
 		$wgOut->addModules('ext.highcharts');
+		$wgOut->addInlineStyle("div#container{\n\theight:".$this->params['height']."px;\n\twidth:".$this->params['width']."px;");
+
 		return "<div id='container'></div>";
 	}
 
@@ -43,10 +45,10 @@ class HighchartsPrinter extends SMWResultPrinter {
 		$params['subtitle'] = new Parameter( 'subtitle', Parameter::TYPE_STRING );
 		$params['subtitle']->setMessage( 'highcharts-plot-subtitle' );
 
-		$params['height'] = new Parameter( 'height', Parameter::TYPE_NUMBER );
+		$params['height'] = new Parameter( 'height', Parameter::TYPE_INTEGER );
 		$params['height']->setMessage( 'highcharts-plot-height' );
 
-		$params['width'] = new Parameter( 'width', Parameter::TYPE_NUMBER );
+		$params['width'] = new Parameter( 'width', Parameter::TYPE_INTEGER );
 		$params['width']->setMessage( 'highcharts-plot-width' );
 
 		return $params;
