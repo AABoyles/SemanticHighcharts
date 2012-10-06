@@ -30,7 +30,7 @@ $wgEnableParserHook = TRUE;
 include ("Highcharts.body.php");
 
 # Include and hook our distance table printer
-include ("Highcharts.printer.php");
+include ("printers/Highcharts.printer.php");
 #$smwgResultFormats[ 'highcharts' ]  = 'HighchartsPrinter';
 
 # Register the Internationalization file
