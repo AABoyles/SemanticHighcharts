@@ -10,11 +10,21 @@
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
-	echo( "This file is an extension to the <a href='http://www.mediawiki.org/'>MediaWiki Platform</a> and cannot be used standalone.\n" );
-	die();
+	die("This file is an extension to the <a href='http://www.mediawiki.org/'>MediaWiki Platform</a> and cannot be used standalone.");
 }
 
-class HighchartsPrinter extends SMWResultPrinter {
+class ScatterHighchartsPrinter extends HighchartsPrinter {
+
+	protected $params = array();
+
+	protected function handleParameters(array $params, $outputmode) {
+		parent::handleParameters($params, $outputmode);
+		$this -> params = $params;
+	}
+
+	public function getName() {
+		return "HighCharts Scatterplot";
+	}
 
 	/**
 	 * @see SMWResultPrinter::getResultText
@@ -24,7 +34,7 @@ class HighchartsPrinter extends SMWResultPrinter {
 	 */
 	protected function getResultText( SMWQueryResult $res, $outputmode ) {
 		global $wgOut;
-		$wgOut->addModules("ext.highcharts");
+
 		return TRUE;
 	}
 
@@ -36,11 +46,7 @@ class HighchartsPrinter extends SMWResultPrinter {
 	public function getParameters() {
 		$params = array_merge( parent::getParameters(), parent::textDisplayParameters() );
 
-		$params['title'] = new Parameter( 'title', Parameter::TYPE_STRING );
-		$params['title']->setMessage( 'highcharts-plot-title' );
-		
-		$params['subtitle'] = new Parameter( 'subtitle', Parameter::TYPE_STRING );
-		$params['subtitle']->setMessage( 'highcharts-plot-subtitle' );
+
 
 		return $params;
 	}

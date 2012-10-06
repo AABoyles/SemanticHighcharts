@@ -10,31 +10,37 @@
  */
 
 if (!defined('MEDIAWIKI')) {
-	echo("This file is an extension to the <a href='http://www.mediawiki.org/'>MediaWiki Platform</a> and cannot be used standalone.\n");
-	die();
-}
-
-if (!defined('SMW_VERSION')) {
-	echo("This is an extension to <a href='http://www.semantic-mediawiki.org/'>Semantic MediaWiki</a> and cannot be used without it.\n");
-	die();
+	die("This file is an extension to the <a href='http://www.mediawiki.org/'>MediaWiki Platform</a> and cannot be used standalone.");
 }
 
 # Global Variables
-# Should we enable the SEmantic Result Printer?
-$wgEnableResultPrinter = TRUE;
+# Should we enable the Semantic Result Printer?
+$wgHCEnableResultPrinter = TRUE;
 
 # Should we enable the parser hook?
-$wgEnableParserHook = TRUE;
+$wgHCEnableParserHook = TRUE;
 
 # Include our utility functions...
 include ("Highcharts.body.php");
 
-# Include and hook our distance table printer
-include ("printers/Highcharts.printer.php");
-#$smwgResultFormats[ 'highcharts' ]  = 'HighchartsPrinter';
+# If this is a Semantic Mediawiki, include our Semantic Result printers
+if (defined('SMW_VERSION')) {
+	include ("printers/Highcharts.printer.php");
+
+	include ("printers/scatter.php");
+	$smwgResultFormats[ 'highchartsscatter' ]  = 'ScatterHighchartsPrinter';
+}
+
+$wgResourceModules['ext.highcharts'] = array(
+	'scripts' => 'js/highcharts.js',
+	//'styles' => 'css/ext.myExtension.css',
+	'dependencies' => 'jquery',
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteExtPath' => 'SemanticHighcharts'
+);
 
 # Register the Internationalization file
-$wgExtensionMessagesFiles['Highcharts'] = __DIR__ . "/Highcharts.i18n.php";
+$wgExtensionMessagesFiles['Highcharts'] = __DIR__ . "/SemanticHighcharts.i18n.php";
 
 # Register extension credits:
 $wgExtensionCredits['semantic'][] = array(
