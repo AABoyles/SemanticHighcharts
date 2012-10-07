@@ -16,6 +16,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 class HighchartsPrinter extends SMWResultPrinter {
 
+	protected $params = array();
+
+	protected function handleParameters(array $incoming, $outputmode) {
+		parent::handleParameters($incoming, $outputmode);
+		$this->params = $incoming;
+	}
+
 	/**
 	 * @see SMWResultPrinter::getResultText
 	 *
@@ -25,9 +32,24 @@ class HighchartsPrinter extends SMWResultPrinter {
 	protected function getResultText( SMWQueryResult $res, $outputmode ) {
 		global $wgOut;
 		$wgOut->addModules('ext.highcharts');
-		$wgOut->addInlineStyle("div#container{\n\theight:".$this->params['height']."px;\n\twidth:".$this->params['width']."px;");
 
-		return "<div id='container'></div>";
+		return Html::element(
+			'div',
+			array(
+				'id' => 'container',
+				'style' => Sanitizer::checkCss(
+					"margin-top: 20px;
+					margin-left:20px;
+					width:{$this->params['width']}px;
+					height:{$this->params['height']}px;"
+				)
+			)
+		);
+	}
+
+	protected function getFormatOutput(){
+		
+		return TRUE;
 	}
 
 
@@ -37,21 +59,21 @@ class HighchartsPrinter extends SMWResultPrinter {
 	 * @return array $params
 	 */
 	public function getParameters() {
-		$params = array_merge( parent::getParameters(), parent::textDisplayParameters() );
+		$tparams = parent::getParameters();
 
-		$params['title'] = new Parameter( 'title', Parameter::TYPE_STRING );
-		$params['title']->setMessage( 'highcharts-plot-title' );
+		$tparams['title'] = new Parameter( 'title', Parameter::TYPE_STRING );
+		$tparams['title']->setMessage( 'highcharts-plot-title' );
 		
-		$params['subtitle'] = new Parameter( 'subtitle', Parameter::TYPE_STRING );
-		$params['subtitle']->setMessage( 'highcharts-plot-subtitle' );
+		$tparams['subtitle'] = new Parameter( 'subtitle', Parameter::TYPE_STRING );
+		$tparams['subtitle']->setMessage( 'highcharts-plot-subtitle' );
 
-		$params['height'] = new Parameter( 'height', Parameter::TYPE_INTEGER );
-		$params['height']->setMessage( 'highcharts-plot-height' );
+		$tparams['height'] = new Parameter( 'height', Parameter::TYPE_INTEGER, 400 );
+		$tparams['height']->setMessage( 'highcharts-plot-height' );
 
-		$params['width'] = new Parameter( 'width', Parameter::TYPE_INTEGER );
-		$params['width']->setMessage( 'highcharts-plot-width' );
+		$tparams['width'] = new Parameter( 'width', Parameter::TYPE_INTEGER, 600 );
+		$tparams['width']->setMessage( 'highcharts-plot-width' );
 
-		return $params;
+		return $tparams;
 	}
 
 }

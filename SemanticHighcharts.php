@@ -29,6 +29,8 @@ if (defined('SMW_VERSION')) {
 
 	include ("printers/scatter.php");
 	$smwgResultFormats[ 'highchartsscatter' ]  = 'ScatterHighchartsPrinter';
+	include ("printers/bar.php");
+	$smwgResultFormats[ 'highchartsbar'     ]  = 'BarHighchartsPrinter';
 }
 
 $wgResourceModules['ext.highcharts'] = array(
