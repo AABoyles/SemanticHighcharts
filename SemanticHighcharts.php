@@ -25,16 +25,15 @@ include ("Highcharts.body.php");
 
 # If this is a Semantic Mediawiki, include our Semantic Result printers
 if (defined('SMW_VERSION')) {
-	include ("printers/Highcharts.printer.php");
-
 	include ("printers/scatter.php");
 	$smwgResultFormats[ 'highchartsscatter' ]  = 'ScatterHighchartsPrinter';
+
 	include ("printers/bar.php");
 	$smwgResultFormats[ 'highchartsbar'     ]  = 'BarHighchartsPrinter';
 }
 
 $wgResourceModules['ext.highcharts'] = array(
-	'scripts' => 'js/highcharts.js',
+	'scripts' => array('js/highcharts.js','js/modules/exporting.js','js/chart.js'),
 	//'styles' => 'css/ext.myExtension.css',
 	'dependencies' => 'jquery',
 	'localBasePath' => dirname( __FILE__ ),
