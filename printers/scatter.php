@@ -114,7 +114,7 @@ class ScatterHighchartsPrinter extends SMWResultPrinter {
 		foreach($tempdata['results'] as $pk=>$pv){
 			$out[$num] = array();
 			foreach($pv['printouts'] as $ck=>$cv){
-				$out[$num][] = $cv;
+				$out[$num][] = floatval($cv[0]['fulltext']);
 			}
 			$num++;
 		}
