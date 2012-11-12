@@ -13,28 +13,24 @@ if (!defined('MEDIAWIKI')) {
 	die("This file is an extension to the <a href='http://www.mediawiki.org/'>MediaWiki Platform</a> and cannot be used standalone.");
 }
 
-# Global Variables
-# Should we enable the Semantic Result Printer?
-$wgHCEnableResultPrinter = TRUE;
-
-# Should we enable the parser hook?
-$wgHCEnableParserHook = TRUE;
-
-# Include our utility functions...
-include ("Highcharts.body.php");
-
-# If this is a Semantic Mediawiki, include our Semantic Result printers
-if (defined('SMW_VERSION')) {
-	include ("printers/scatter.php");
-	$smwgResultFormats[ 'highchartsscatter' ]  = 'ScatterHighchartsPrinter';
-
-	include ("printers/bar.php");
-	$smwgResultFormats[ 'highchartsbar'     ]  = 'BarHighchartsPrinter';
+if (!defined('SMW_VERSION')) {
+	die("Semantic Highcharts is an extension to the <a href='http://www.semantic-mediawiki.com/'>Semantic MediaWiki Platform</a> and cannot be used standalone.");
 }
 
+
+# Global Variables
+
+
+# Include our Semantic Result printers
+$wgAutoloadClasses['ScatterHighchartsPrinter'] = dirname( __FILE__ ) . 'printers/scatter.php';
+$smwgResultFormats[ 'highchartsscatter' ]  = 'ScatterHighchartsPrinter';
+
+$wgAutoloadClasses['BarHighchartsPrinter'] = dirname( __FILE__ ) . 'printers/bar.php';
+$smwgResultFormats[ 'highchartsbar'     ]  = 'BarHighchartsPrinter';
+
+# Register our Javascript Resources
 $wgResourceModules['ext.highcharts'] = array(
 	'scripts' => array('js/highcharts.js','js/modules/exporting.js','js/chart.js'),
-	//'styles' => 'css/ext.myExtension.css',
 	'dependencies' => 'jquery',
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteExtPath' => 'SemanticHighcharts'
